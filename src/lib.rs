@@ -3,8 +3,8 @@ use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::json_types::U128;
 use near_sdk::{env, near_bindgen, log, Gas, AccountId, Promise, PromiseError};
 
-const FT_CONTRACT: &str = "tttest.tkn.near";
-const CLAIMING_AMOUNT: U128 = U128(1);
+const FT_CONTRACT: &str = "dtest.tkn.near";
+const CLAIMING_AMOUNT: U128 = U128(1000000000000000000);
 
 const YOCTO_NEAR: u128 = 1;
 const TGAS: u64 = 1_000_000_000_000;
@@ -34,7 +34,7 @@ impl Contract {
 
     let receiver_id = env::signer_account_id();
 
-    let promise = ext(self.ft_contract.clone())
+    let promise = ext(FT_CONTRACT.parse().unwrap())
       .with_attached_deposit(YOCTO_NEAR)
       .ft_transfer(receiver_id, CLAIMING_AMOUNT, None);
 
@@ -52,4 +52,6 @@ impl Contract {
       log!("There was an error contacting external contract");
     }
   }
+
+  // TODO: Add method to change self.ft_contract
 }
